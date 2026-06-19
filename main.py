@@ -22,6 +22,7 @@ bot = telebot.TeleBot(API_TOKEN)
 
 KINO_BAZA = {
     "101": "BAACAgQAAxkBAAFM1NlqNIYtOTA5ni4odP-SRalqJGVhvwACFRsAAssmgVCoG1HjVkt_-DwE",
+    "102": "BAACAgQAAxkBAAFM1xNqNMDX3WKph56cRkCunZVSnhmUfgACzBkAAv96gFBOFBsc3lKVzTwE",
 }
 
 @bot.message_handler(commands=['start'])
@@ -32,7 +33,8 @@ def start_message(message):
 def get_movie(message):
     kod = message.text
     if kod in KINO_BAZA:
-        bot.send_video(message.chat.id, KINO_BAZA[kod], caption=f"🎬**Синфдош** \n\nКод: {kod}")
+        bot.send_video(message.chat.id, KINO_BAZA[kod], caption=f"🎬**Синфдош** \n\nКод: {kod}"
+                      caption=f"🎬**Якин масофа** \n\nКод: {kod}")
     else:
         bot.reply_to(message, "Бундай кодли кино топилмади 😔")
 
