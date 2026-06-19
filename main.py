@@ -32,7 +32,7 @@ def start_message(message):
 def get_movie(message):
     kod = message.text
     if kod in KINO_BAZA:
-        bot.send_video(message.chat.id, KINO_BAZA[kod], caption="🎬**Синфдош**\n\n Код: {kod}")
+        bot.send_video(message.chat.id, KINO_BAZA[kod], caption=f"🎬**Синфдош** \n\nКод: {kod}")
     else:
         bot.reply_to(message, "Бундай кодли кино топилмади 😔")
 
