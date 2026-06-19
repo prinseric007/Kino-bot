@@ -1,45 +1,68 @@
-import telebot
 import os
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import threading
+from flask import Flask
+from threading import Thread
+import telebot
 
-# 1. Сервер учун керакли кичик тизим (ухлаб қолмаслик учун)
-class HealthCheckHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        self.wfile.write(b"Bot is alive!")
+# 1. Токен ва Ботни созлаш
+BOT_TOKEN = "8382890125:AAHgdLV4ubYwPOxSQ3fUwt5tHuX-90hggzE"  # Бу ерга BotFather берган токенни ёзинг
+bot = telebot.TeleBot(BOT_TOKEN)
 
-def run_health_server():
-    port = int(os.environ.get("PORT", 8080))
-    server = HTTPServer(('0.0.0.0', port), HealthCheckHandler)
-    server.serve_forever()
+app = Flask('')
 
-# --- СИЗНИНГ БОТИНГИЗ КИСМИ ---
-API_TOKEN = '8382890125:AAHgdLV4ubYwPOxSQ3fUwt5tHuX-90hggzE' 
-bot = telebot.TeleBot(API_TOKEN)
+@app.route('/')
+def home():
+    return "Бот фаол ишлаяпти!"
 
-KINO_BAZA = {
-    "101": "BAACAgQAAxkBAAFM1NlqNIYtOTA5ni4odP-SRalqJGVhvwACFRsAAssmgVCoG1HjVkt_-DwE",
-    "102": "BAACAgQAAxkBAAFM1xNqNMDX3WKph56cRkCunZVSnhmUfgACzBkAAv96gFBOFBsc3lKVzTwE",
-}
+def run():
+    app.run(host='0.0.0.0', port=8080)
 
+# 2. БОТ БУЙРУҚЛАРИ (Кино кодлари шу ерда)
+
+# /start буйруғи берилганда
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.reply_to(message, "Салом! Кино кодини юборинг 🎬")
+    bot.send_message(
+        message.chat.id, 
+        "👋 **Салом! Кино ботга хуш келибсиз!**\n\n🍿 Кино кўриш учун кино кодини юборинг."
+    )
 
+# Кино кодларини текшириш қисми
 @bot.message_handler(func=lambda message: True)
-def get_movie(message):
+def send_movie(message):
     kod = message.text
-    if kod in KINO_BAZA:
-        bot.send_video(message.chat.id, KINO_BAZA[kod], caption=f"🎬**Синфдош** \n\nКод: {kod}"
-                      caption=f"🎬**Якин масофа** \n\nКод: {kod}")
+
+    # 1-КИНО (Масалан, код: 100)
+    if kod == "101":
+        bot.send_video(
+            message.chat.id, 
+            "BAACAgQAAxkBAAFM1NlqNIYtOTA5ni4odP-SRalqJGVhvwACFRsAAssmgVCoG1HjVkt_-DwE",  # Бу ерга биринчи кинонинг файл идисини қўясиз
+            caption="🎬 **Кино номи:** Синфдош\n\n🍿 Ёқимли томоша!"
+        )
+
+    elif kod == "102":
+        bot.send_video(
+            message.chat.id, 
+            "BAACAgQAAxkBAAFM1xNqNMDX3WKph56cRkCunZVSnhmUfgACzBkAAv96gFBOFBsc3lKVzTwE",  # Бу ерга иккинчи кинонинг файл идисини қўясиз
+            caption="🎬 **Кино номи:** Якин масофа\n\n🍿 Ёқимли томоша!"
+        )
+
+    # Янги кино қўшмоқчи бўлсангиз, мана шу пастдаги блокни нусхалаб кўпайтираверасиз:
+    # elif kod == "ЯНГИ_КОД":
+    #     bot.send_video(message.chat.id, "ЯНГИ_ФАЙЛ_ИД", caption="🎬 **Номи:** ...\n\n🗓 **Йили:** ...")
+
     else:
-        bot.reply_to(message, "Бундай кодли кино топилмади 😔")
+        bot.send_message(
+            message.chat.id, 
+            "❌ **Бундай кодли кино топилмади.**\n\nИлтимос, кодни тўғри ёзганингизни текшириб кўринг."
+        )
 
-# 2. Серверни алоҳида оқимда юргизиш
-threading.Thread(target=run_health_server, daemon=True).start()
+# Ботни серверда юргизиш
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
 
-print("Бот сервер учун тайёр...")
-bot.polling(none_stop=True)
+if __name__ == "__main__":
+    keep_alive()
+    print("Бот ишга тушди...")
+    bot.infinity_polling()
+    
