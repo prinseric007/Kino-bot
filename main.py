@@ -50,7 +50,7 @@ def send_movie(message):
         bot.send_vedio(
             message.chat.id,
             "BAACAgIAAxkBAAFM1PVqNIfoR-m4YALqeUKGuxtm0t3vaAACNoIAAiEMAAFIO6Xr-2U2ehI8BA",
-            caption="🎬 Кино номи:Гринландия 1\n\n🍿 Ёкимли томоша!"
+            caption="🎬 **Кино номи:** Гринландия 1\n\n🍿 Ёкимли томоша!"
         )
         
     # Янги кино қўшмоқчи бўлсангиз, мана шу пастдаги блокни нусхалаб кўпайтираверасиз:
