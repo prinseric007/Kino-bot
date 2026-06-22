@@ -62,6 +62,9 @@ def send_movie(message):
     elif kod == "104":
         bot.send_video(message.chat.id, "BAACAgIAAxkBAAFNGNtqONMzMrOvsCLG_vC-KBxKudXRuAACQ4YAApcQuUi_f3nQRrsNOTwE", caption="🎬 **Номи:** Танк\n\n🍿Ёкимли томоша!")
 
+    elif kod == "105":
+        bot.send_video(message.chat.id, "BAACAgIAAxkBAAFNIGVqOUQOa5rORp-etROq5cqB8gfQKQACIqAAAmhOCEmbjaNae9_57jwE", caption="🎬 **Номи:** Дача\n\n🍿Ёкимли томоша!")
+
     # Янги кино қўшмоқчи бўлсангиз, мана шу пастдаги блокни нусхалаб кўпайтираверасиз:
     # elif kod == "ЯНГИ_КОД":
     #     bot.send_video(message.chat.id, "ЯНГИ_ФАЙЛ_ИД", caption="🎬 **Номи:** ...\n\n🗓 **Йили:** ...")
