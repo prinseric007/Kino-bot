@@ -53,6 +53,12 @@ def send_movie(message):
             caption="🎬 **Номи:** Гриландия 1\n\n🍿Ёкимли томоша!"
         )
 
+        bot.send_video(
+            message.chat.id,
+            "BAACAgUAAxkBAAFM1MlqNIVCYxkwHVCUn7vWmEyvYRiiewAC8SAAAivxcFftRiVP_0_s6zwE",
+            caption="🎬 **номи:** Гриландия 2\n\n🍿Ёкимли томоша!"
+        )
+
     # Янги кино қўшмоқчи бўлсангиз, мана шу пастдаги блокни нусхалаб кўпайтираверасиз:
     # elif kod == "ЯНГИ_КОД":
     #     bot.send_video(message.chat.id, "ЯНГИ_ФАЙЛ_ИД", caption="🎬 **Номи:** ...\n\n🗓 **Йили:** ...")
